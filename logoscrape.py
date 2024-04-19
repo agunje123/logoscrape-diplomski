@@ -31,8 +31,10 @@ class KabinetList:
         self.dataframe().to_csv(f"output/kabineti.csv")
 
 def extract_coordinates(url: str) -> tuple[float,float]:
-    coordinates = url.split('/@')[-1].split('/')[0]
-    return float(coordinates.split(',')[0]), float(coordinates.split(',')[1])
+    coordSubstring = url.split('!3d')[-1]
+    latitude = coordSubstring.split('!4d')[0]
+    longitude = coordSubstring.split('!4d')[1].split('!')[0]
+    return float(latitude), float(longitude)
 
 def main():
     with sync_playwright() as p:
